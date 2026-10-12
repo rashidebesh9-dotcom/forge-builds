@@ -1,44 +1,32 @@
-```objc
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-@interface GameScene : UIView
+@interface NHNEntMiniclipPT8BallPoolViewController : UIViewController
 @end
 
-%hook GameScene
+%hook NHNEntMiniclipPT8BallPoolViewController
+- (void)viewDidLoad {
+	%orig;
 
-- (void)update {
-  %orig;
-  
-  // Add cheat menu button
-  UIButton *cheatButton = [UIButton buttonWithType:UIButtonTypeSystem];
-  [cheatButton setTitle:@"Cheat Menu" forState:UIControlStateNormal];
-  [cheatButton addTarget:self action:@selector(showCheatMenu) forControlEvents:UIControlEventTouchUpInside];
-  cheatButton.frame = CGRectMake(10, 10, 100, 50);
-  [self addSubview:cheatButton];
+	// Create cheat menu button
+	UIButton *cheatButton = [UIButton buttonWithType:UIButtonTypeSystem];  
+	[cheatButton setTitle:@"Cheat Menu" forState:UIControlStateNormal];
+	[cheatButton addTarget:self action:@selector(showCheatMenu) forControlEvents:UIControlEventTouchUpInside];
+	cheatButton.frame = CGRectMake(10, 30, 100, 30);
+	[self.view addSubview:cheatButton];
 }
 
 %new
 - (void)showCheatMenu {
-  // Create cheat menu view
-  UIView *cheatMenu = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-  cheatMenu.backgroundColor = [UIColor whiteColor];
-  
-  // Add cheat options
-  UIButton *option1 = [UIButton buttonWithType:UIButtonTypeSystem];
-  [option1 setTitle:@"Cheat 1" forState:UIControlStateNormal];
-  [option1 addTarget:self action:@selector(cheat1) forControlEvents:UIControlEventTouchUpInside];
-  option1.frame = CGRectMake(10, 10, 180, 50);
-  [cheatMenu addSubview:option1];
-  
-  // Add more cheat options...
-  
-  // Show cheat menu
-  [self addSubview:cheatMenu];
-}
+	// Implement your cheat menu functionality here
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cheat Menu" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+	UIAlertAction *action = [UIAlertAction actionWithTitle:@"Cheat 1" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+		// Implement cheat 1
+	}];
+	[alert addAction:action];
 
-%new
-- (void)cheat1 {
-  // Implement cheat 1
-}
+	// Add more cheat options...
 
+	[self presentViewController:alert animated:YES completion:nil];
+}
 %end
