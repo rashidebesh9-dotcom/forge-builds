@@ -1,10 +1,9 @@
-```
-Package: com.yourname.8ballpoolcheat
-Name: 8ball Pool Cheat
-Depends: mobilesubstrate, firmware (>= 13.0)
+Package: com.yourcompany.eightballpoolcheatmenu
+Name: EightBallPoolCheatMenu
+Depends: mobilesubstrate, preferenceloader
 Version: 1.0
 Architecture: iphoneos-arm
-Description: Cheat menu for 8ball Pool
+Description: 8 Ball Pool cheat menu tweak.
 Maintainer: Your Name
 Author: Your Name
 Section: Tweaks
