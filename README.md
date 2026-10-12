@@ -1,21 +1,20 @@
 ```
-# 8Ball Pool Cheat Menu
+# 8ball Pool Cheat Menu
 
-Et tweak for å legge til en cheat menu i 8ball pool spillet på iPhone.
+This is a cheat menu for the game 8ball Pool on iPhone. It allows you to enable god mode and other cheats.
 
-## Installasjon
-1. Klon repoet
-2. Kjør `make package install` for å bygge og installere
-3. Tweaket blir aktivert automatisk etter installasjon
+## Installation
 
-## Bruk
-Åpne 8ball pool spillet og trykk på "Cheat Menu" knappen for å vise cheat menyen.
+1. Set your device IP address in `build_ipa.sh`
+2. Run `build_ipa.sh` to build and install the tweak on your device
+3. Respring your device or restart the 8ball Pool app to see the cheat menu
 ```
 
-For å kompile og installere:
+For å bruke denne 8ball Pool cheat menuen:
 
-1. Plasser alle filene i et nytt tomt Theos tweak prosjekt. 
-2. Endre `THEOS_DEVICE_IP` i `build_ipa.sh` til din iPhone sin IP-addresse.
-3. Kjør `build_ipa.sh` for å bygge og installere tweaket på din iPhone.
+1. Plasser alle filene i et Theos-prosjekt
+2. Sett ditt enhetens IP-adresse i `build_ipa.sh`
+3. Kjør `build_ipa.sh` for å bygge og installere tweaken på din enhet
+4. Restart 8ball Pool-appen for å se cheat-menyen
 
-Når du har installert tweaket, vil det legge til en "Cheat Menu" knapp i 8ball pool spillet. Trykk på denne for å vise cheat menyen. Du må selv legge til koden for å endre poeng, låse kulør osv. i `showCheatMenu` metoden.
+Cheat-menyen vil vise seg når appen starter, og lar deg aktivere "god mode" og andre cheats.
