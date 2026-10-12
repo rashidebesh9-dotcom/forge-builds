@@ -1,13 +1,15 @@
 # 8ball Pool Cheat Menu
+En cheat menu for 8ball pool med auto aim og ESP.
 
-This is a cheat menu for the game 8ball Pool on iOS. It allows you to:
+## Installasjon
+1. Klon repoet
+2. Bygg tweaket med `make package`
+3. Installer.deb-filen på iPhone
 
-- Get unlimited coins
-- Have perfect aim
+## Bruk
+Åpne 8ball pool og trykk på "Cheat Menu" for å velge cheat.
 
-## Installation
+For å fjerne:
+- Bygg med `make uninstall` og installer.deb
 
-1. Clone this repository
-2. Run `make package install` to build and install the tweak
-
-Note: You need a jailbroken iOS device to use this tweak.
+OFFSETTER MÅ ENDRES! Du må finne riktige offsets og erstatte "// FILL:" i Tweak.xm med dem.
