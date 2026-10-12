@@ -10,24 +10,43 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install tools
+        continue-on-error: true
         run: |
-          brew install ldid xz make || true
-          git clone --recursive --depth=1 https://github.com/theos/theos.git $HOME/theos || true
+          {
+            echo '=== install start ==='
+            brew install ldid xz make 2>&1 || true
+            git clone --recursive --depth=1 https://github.com/theos/theos.git $HOME/theos 2>&1 || true
+            echo '=== install done ==='
+          } > build.log 2>&1
+          true
       - name: Build tweak
+        continue-on-error: true
         run: |
-          export THEOS=$HOME/theos
-          export PATH=$THEOS/bin:$PATH
-          { echo '=== make clean ==='; make clean 2>&1; } | tee build.log || true
-          { echo '=== make package ==='; make package FINALPACKAGE=1 2>&1; } | tee -a build.log || { echo '=== make package (fallback) ===' | tee -a build.log; make package 2>&1 | tee -a build.log; } || true
+          {
+            echo '=== build start ==='
+            export THEOS=$HOME/theos
+            export PATH=$THEOS/bin:$PATH
+            make clean 2>&1 || true
+            make package FINALPACKAGE=1 2>&1 || make package 2>&1 || true
+            echo '=== build done ==='
+          } >> build.log 2>&1
           true
       - name: Collect
+        continue-on-error: true
         run: |
           mkdir -p out
-          find . -name '*.dylib' -exec cp {} out/ \; || true
-          find . -name '*.deb' -exec cp {} out/ \; || true
+          find . -name '*.dylib' -exec cp {} out/ \; 2>/dev/null || true
+          find . -name '*.deb' -exec cp {} out/ \; 2>/dev/null || true
           cp build.log out/ 2>/dev/null || true
-          echo '--- build.log ---'; cat build.log 2>/dev/null || true
-          echo '--- out/ ---'; ls -la out/
+          ls -la out/ || true
+          true
+      - name: Show build log
+        continue-on-error: true
+        run: |
+          echo '=========== BUILD LOG ==========='
+          cat build.log 2>/dev/null || echo 'no log'
+          echo '=========== END LOG ==========='
+          true
       - uses: actions/upload-artifact@v4
         with:
           name: build
