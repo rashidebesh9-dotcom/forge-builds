@@ -17,13 +17,17 @@ jobs:
         run: |
           export THEOS=$HOME/theos
           export PATH=$THEOS/bin:$PATH
-          make clean || true
-          make package FINALPACKAGE=1 || make package || make
+          { echo '=== make clean ==='; make clean 2>&1; } | tee build.log || true
+          { echo '=== make package ==='; make package FINALPACKAGE=1 2>&1; } | tee -a build.log || { echo '=== make package (fallback) ===' | tee -a build.log; make package 2>&1 | tee -a build.log; } || true
+          true
       - name: Collect
         run: |
           mkdir -p out
           find . -name '*.dylib' -exec cp {} out/ \; || true
           find . -name '*.deb' -exec cp {} out/ \; || true
+          cp build.log out/ 2>/dev/null || true
+          echo '--- build.log ---'; cat build.log 2>/dev/null || true
+          echo '--- out/ ---'; ls -la out/
       - uses: actions/upload-artifact@v4
         with:
           name: build
