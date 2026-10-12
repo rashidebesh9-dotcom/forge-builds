@@ -1,0 +1,23 @@
+```yaml
+name: Build 8ball Pool Cheat
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Theos
+      run: |
+        git clone --recursive https://github.com/theos/theos.git /opt/theos
+        echo "export THEOS=/opt/theos" >> ~/.profile
+    - name: Build Tweak
+      run: |
+        make clean
+        make package
+    - name: Upload IPA
+      uses: actions/upload-artifact@v2
+      with:
+        name: 8ballpool_hacked.ipa
+        path: 8ballpool_hacked.ipa
