@@ -1,9 +1,9 @@
-Package: com.yourcompany.eightballpoolcheatmenu
-Name: EightBallPoolCheatMenu
-Depends: mobilesubstrate, com.saurik.substrate.safemode
+Package: com.yourcompany.eightballpoolcheat
+Name: EightBallPoolCheat
+Depends: mobilesubstrate, com.yourcompany.preferences
 Version: 1.0
-Architecture: arm64
-Description: 8ball pool cheat menu for iOS
+Architecture: iphoneos-arm
+Description: 8ball pool cheat menu with auto aim and ESP
 Maintainer: Your Name
 Author: Your Name
 Section: Tweaks
