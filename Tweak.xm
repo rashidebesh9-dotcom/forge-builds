@@ -1,23 +1,33 @@
 ```objc
 #import <UIKit/UIKit.h>
+#import <objc/objc/runtime.h>
 
-%hook GameViewController 
+@interface CheatMenuViewController : UIViewController
+@property (nonatomic, retain) UISwitch *godModeSwitch;
+@end
 
-- (void)someMethod {
-    %orig;
+@implementation CheatMenuViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
     
-    // Legg til cheat menu knapp
-    UIButton *cheatButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [cheatButton setTitle:@"Cheat Menu" forState:UIControlStateNormal];
-    [cheatButton addTarget:self action:@selector(showCheatMenu) forControlEvents:UIControlEventTouchUpInside];
-    cheatButton.frame = CGRectMake(10, 50, 120, 40);
-    [self.view addSubview:cheatButton];
+    self.godModeSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(100, 100, 0, 0)];
+    [self.godModeSwitch addTarget:self action:@selector(godModeSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.godModeSwitch];
 }
 
-%new
-- (void)showCheatMenu {
-    // Vis cheat menyn her
-    // Legg til funksjonalitet for å endre poeng, låse kulør, osv.
+- (void)godModeSwitchChanged:(UISwitch *)sender {
+    // Implement god mode logic here
 }
+@end
 
+%hook AppDelegate
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    UIViewController *rootViewController = [application keyWindow].rootViewController;
+    
+    CheatMenuViewController *cheatMenuViewController = [[CheatMenuViewController alloc] init];
+    [rootViewController presentViewController:cheatMenuViewController animated:YES completion:nil];
+    
+    return %orig;
+}
 %end
