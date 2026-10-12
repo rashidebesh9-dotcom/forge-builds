@@ -1,20 +1,22 @@
 ```
-# 8ball Pool Cheat Menu
+# 8 Ball Pool Cheat Menu
 
-This is a cheat menu for the game 8ball Pool on iPhone. It allows you to enable god mode and other cheats.
+This is a cheat menu for 8 Ball Pool on iOS. It includes options for unlimited coins, unlimited cash, and aim assist.
 
 ## Installation
 
-1. Set your device IP address in `build_ipa.sh`
-2. Run `build_ipa.sh` to build and install the tweak on your device
-3. Respring your device or restart the 8ball Pool app to see the cheat menu
+1. Install Theos on your device.
+2. Clone this repository.
+3. Run `make package` to build the tweak.
+4. Install the generated .deb file using your preferred method (e.g., SSH, Filza).
+
+## Usage
+
+Launch 8 Ball Pool and the cheat menu will appear. Use the buttons to activate cheats.
+
+## Disclaimer
+
+Use this tweak at your own risk. The developers are not responsible for any bans or other consequences.
 ```
 
-For å bruke denne 8ball Pool cheat menuen:
-
-1. Plasser alle filene i et Theos-prosjekt
-2. Sett ditt enhetens IP-adresse i `build_ipa.sh`
-3. Kjør `build_ipa.sh` for å bygge og installere tweaken på din enhet
-4. Restart 8ball Pool-appen for å se cheat-menyen
-
-Cheat-menyen vil vise seg når appen starter, og lar deg aktivere "god mode" og andre cheats.
+Sørg for at du har Theos installert på din iPhone eller Mac, og kjør `make package` for å bygge tweaken. Installer deretter .deb-filen på enheten din.
