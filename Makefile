@@ -1,14 +1,16 @@
 ```
-SDKVERSION=13.0
-TARGET=iphone:clang:latest:13.0
+THEOS_DEVICE_IP = localhost
+THEOS_DEVICE_PORT = 2222
 ARCHS = arm64
+TARGET = iphone:latest:13.0
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = 8ballPoolCheatMenu
-8ballPoolCheatMenu_FILES = Tweak.xm
-8ballPoolCheatMenu_FRAMEWORKS = UIKit
+TWEAK_NAME = EightBallPoolCheat
+EightBallPoolCheat_FILES = Tweak.xm
+EightBallPoolCheat_FRAMEWORKS = UIKit
 
 include $(THEOS_MAKE_PATH)/tweak.mk
+
 after-install::
-	install.exec "killall -9 8ballPool"
+	install.exec "killall -9 8BallPool"
