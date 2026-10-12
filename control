@@ -1,10 +1,9 @@
-```
-Package: com.yourcompany.eightballpoolcheat
-Name: EightBallPoolCheat
-Depends: mobilesubstrate
+Package: com.yourcompany.eightballpoolcheatmenu
+Name: EightBallPoolCheatMenu
+Depends: mobilesubstrate, com.saurik.substrate.safemode
 Version: 1.0
-Architecture: iphoneos-arm
-Description: A cheat menu for 8 Ball Pool
+Architecture: arm64
+Description: 8ball pool cheat menu for iOS
 Maintainer: Your Name
 Author: Your Name
 Section: Tweaks
