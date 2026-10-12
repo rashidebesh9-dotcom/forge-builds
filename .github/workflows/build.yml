@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - name: Install tools
@@ -14,7 +14,7 @@ jobs:
         run: |
           {
             echo '=== install start ==='
-            brew install ldid xz make 2>&1 || true
+            brew install ldid xz make optool 2>&1 || true
             git clone --recursive --depth=1 https://github.com/theos/theos.git $HOME/theos 2>&1 || true
             echo '=== install done ==='
           } > build.log 2>&1
@@ -31,12 +31,47 @@ jobs:
             echo '=== build done ==='
           } >> build.log 2>&1
           true
+      - name: Inject into base IPA (if present)
+        continue-on-error: true
+        run: |
+          {
+            echo '=== inject start ==='
+            DYLIB=$(find . -name '*.dylib' | head -n 1)
+            IPA=$(find . -maxdepth 1 -name '*.ipa' | head -n 1)
+            if [ -n "$DYLIB" ] && [ -n "$IPA" ]; then
+              echo "found dylib: $DYLIB"
+              echo "found ipa: $IPA"
+              rm -rf /tmp/ipa-work
+              mkdir -p /tmp/ipa-work
+              cd /tmp/ipa-work
+              unzip -q "$GITHUB_WORKSPACE/$IPA" -d extracted
+              APP=$(find extracted/Payload -maxdepth 1 -name '*.app' | head -n 1)
+              BIN="$APP/$(basename "$APP" .app)"
+              echo "app: $APP"
+              echo "bin: $BIN"
+              cp "$GITHUB_WORKSPACE/$DYLIB" "$APP/Frameworks/" 2>/dev/null || cp "$GITHUB_WORKSPACE/$DYLIB" "$APP/"
+              FW_BIN=$(find "$APP/Frameworks" -maxdepth 2 -type f -name 'UnityFramework' 2>/dev/null | head -n 1)
+              TARGET_BIN="${FW_BIN:-$BIN}"
+              echo "target bin: $TARGET_BIN"
+              DYLIB_NAME=$(basename "$DYLIB")
+              optool install -c load -p "@executable_path/Frameworks/$DYLIB_NAME" -t "$TARGET_BIN" 2>&1 || optool install -c load -p "@executable_path/$DYLIB_NAME" -t "$TARGET_BIN" 2>&1 || true
+              rm -rf "$GITHUB_WORKSPACE/out/$(basename "$IPA" .ipa)-modded.ipa"
+              cd extracted
+              zip -qr "$GITHUB_WORKSPACE/out/$(basename "$IPA" .ipa)-modded.ipa" Payload
+              echo 'injection complete'
+            else
+              echo 'no base ipa found — skipping injection (only .dylib will be shipped)'
+            fi
+            echo '=== inject done ==='
+          } >> build.log 2>&1
+          true
       - name: Collect
         continue-on-error: true
         run: |
           mkdir -p out
           find . -name '*.dylib' -exec cp {} out/ \; 2>/dev/null || true
           find . -name '*.deb' -exec cp {} out/ \; 2>/dev/null || true
+          find /tmp/ipa-work -name '*-modded.ipa' -exec cp {} out/ \; 2>/dev/null || true
           cp build.log out/ 2>/dev/null || true
           ls -la out/ || true
           true
