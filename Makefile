@@ -1,16 +1,12 @@
-```
-THEOS_DEVICE_IP = localhost
-THEOS_DEVICE_PORT = 2222
-ARCHS = arm64
-TARGET = iphone:latest:13.0
+export THEOS_DEVICE_IP = localhost -p 2222
+export ARCHS = arm64
+export TARGET = iphone:clang:14.4:14.4
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = EightBallPoolCheat
-EightBallPoolCheat_FILES = Tweak.xm
-EightBallPoolCheat_FRAMEWORKS = UIKit
+TWEAK_NAME = EightBallPoolCheatMenu
+EightBallPoolCheatMenu_FILES = Tweak.xm
+EightBallPoolCheatMenu_FRAMEWORKS = UIKit
 
 include $(THEOS_MAKE_PATH)/tweak.mk
-
-after-install::
-	install.exec "killall -9 8BallPool"
+include $(THEOS_MAKE_PATH)/aggregate.mk
